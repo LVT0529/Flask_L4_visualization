@@ -1,6 +1,14 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{{ url_for('main.index') }}">Pybo</a>
+        {%if g.user %}
+          <a class="navbar-brand" href="{{ url_for('main.list') }}">
+            <img src="/static/img/logo_afreeca.png">
+          </a>
+        {% else %}
+          <a class="navbar-brand" href="{{ url_for('main.index') }}">
+            <img src="/static/img/logo_afreeca.png">
+          </a>
+        {% endif %}
         <button class="navbar-toggler" type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent"
@@ -11,19 +19,20 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             {% if g.user %}
-            <ul class="navbar-nav">
-                <li class="nav-item ">
+            <ul class="navbar-nav navbar-right">
+                <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('auth.logout') }}">{{ g.user.username }} (로그아웃)</a>
                 </li>
-            </ul>
-            {% else %}
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('auth.signup') }}">계정생성</a>
+                    <a class="nav-link" href="{{ url_for('visual._visual') }}">L4 시각화 템플릿</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('auth.login') }}">로그인</a>
-                </li>
+                {%if g.user.username == 'admin'%}
+                  <li class="nav-item">
+                      <a class="nav-link" href="{{ url_for('auth.signup') }}">계정생성</a>
+                  </li>
+                {%endif%}
+
+
             </ul>
             {% endif %}
         </div>

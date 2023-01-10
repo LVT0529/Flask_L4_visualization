@@ -33,12 +33,13 @@ def create_app():
 
 
     #블루프린트
-    from .views import main_views, question_views, answer_views, auth_views, comment_views
+    from .views import main_views, question_views, answer_views, auth_views, comment_views, L4_visual_views
     app.register_blueprint(main_views.bp)
     app.register_blueprint(question_views.bp)
     app.register_blueprint(answer_views.bp)
     app.register_blueprint(auth_views.bp)
     app.register_blueprint(comment_views.bp)
+    app.register_blueprint(L4_visual_views.bp)
 
 
     #필터

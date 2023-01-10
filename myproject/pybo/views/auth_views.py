@@ -14,6 +14,7 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 @bp.route('/signup/', methods=('GET', 'POST'))
 def signup():
     form = UserCreateForm()
+
     if request.method == 'POST' and form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if not user:
@@ -30,6 +31,7 @@ def signup():
 @bp.route('/login/', methods=('GET', 'POST'))
 def login():
     form = UserLoginForm()
+
     if request.method == 'POST' and form.validate_on_submit():
         error = None
         user = User.query.filter_by(username=form.username.data).first()
@@ -44,7 +46,7 @@ def login():
             if _next:
                 return redirect(_next)
             else:
-                return redirect(url_for('main.index'))
+                return redirect(url_for('main.list'))
         flash(error)
     return render_template('auth/login.html', form=form)
 
@@ -71,4 +73,3 @@ def login_required(view):
             return redirect(url_for('auth.login', next=_next))
         return view(*args, **kwargs)
     return wrapped_view
-    
