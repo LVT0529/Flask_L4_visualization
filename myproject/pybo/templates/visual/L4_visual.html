@@ -2,20 +2,22 @@
 {% block content %}
 <html>
         <head>
-                <title>test</title>
-                <script language="javascript">
-                        function apply(){
-
-                          location.href="../static/visual_view.py";
-
-
-                        }
-                </script>
+          <title> Test </title>
+          <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+          <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+          <py-env>
+            - numpy
+            - requests
+            - paths:
+              - ././static/visual_view.py
+          </py-env>
         </head>
         <body>
-                <center>
+
 							   <br>
-                <input type="button" value="Config Apply" onclick="apply()"></input><br><br><br>
+
+                 <py-script src = "././static/visual_view.py"></py-script>
+
         </body>
 </html>
 
