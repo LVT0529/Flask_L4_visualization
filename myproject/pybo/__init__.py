@@ -2,6 +2,8 @@ from flask import Flask, render_template
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
+from flask_sslify import SSLify
+
 
 import config
 
@@ -20,6 +22,7 @@ migrate = Migrate()
 
 def create_app():
     app = Flask(__name__)
+
     app.config.from_object(config)
 
     #ORM

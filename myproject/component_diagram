@@ -1,0 +1,7 @@
+digraph {
+	A [label="Component A"]
+	B [label="Component B"]
+	C [label="Component C"]
+	A -> B
+	A -> C
+}

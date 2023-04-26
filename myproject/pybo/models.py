@@ -54,3 +54,17 @@ class Comment(db.Model):
     question = db.relationship('Question', backref=db.backref('comment_set'))
     answer_id = db.Column(db.Integer, db.ForeignKey('answer.id', ondelete='CASCADE'), nullable=True)
     answer = db.relationship('Answer', backref=db.backref('comment_set'))
+
+
+class L4_wideip(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+
+    wideip = db.Column(db.String(100),  unique=True, nullable=False)
+    wideip_record = db.Column(db.String(20), nullable=False)
+    wideip_status = db.Column(db.String(20), nullable=False)
+    wideip_en = db.Column(db.String(20), nullable=False)
+    wideip_lbmod = db.Column(db.String(20), nullable=False)
+    wideip_rcof = db.Column(db.String(20), nullable=False)
+
+class L4_pool(db.Model):
+    id = db.Column(db.Integer, primary_key=True)

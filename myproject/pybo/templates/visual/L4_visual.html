@@ -1,24 +1,93 @@
 {% extends 'base.html' %}
 {% block content %}
+<!-- index.html -->
+
+<!DOCTYPE html>
 <html>
-        <head>
-          <title> Test </title>
-          <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
-          <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
-          <py-env>
-            - numpy
-            - requests
-            - paths:
-              - ././static/visual_view.py
-          </py-env>
-        </head>
-        <body>
+  <head>
+    <title>Flask and Vue.js Tree Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-router@3.5.2/dist/vue-router.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuedraggable@2.24.3/dist/vuedraggable.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+  </head>
+  <body>
+    <div id="app">
+      <router-view></router-view>
+    </div>
 
-							   <br>
+    <div> len size = {{len}}
+    </div>
+    <br><br>
 
-                 <py-script src = "././static/visual_view.py"></py-script>
+    <div>
+    </div>
 
-        </body>
+    <!--
+    <template>
+      <div id="app">
+        <tree-view :tree-data="treeData" :attributes="attributes"></tree-view>
+      </div>
+    </template>
+
+    <script src="./static/visual.js" type="module" defer> </script>
+    -->
+
+
+    <script>
+      const routes = [
+        {
+          path: "/",
+          component: {
+            template: `
+              <div>
+                <h1>Flask and Vue.js Tree Example</h1>f
+                <div v-if="treeData">
+                  <tree-view :data="treeData"></tree-view>
+                </div>
+              </div>
+            `,
+            data() {
+              return {
+                treeData: null,
+              };
+            },
+            mounted() {
+              axios.get("/api/tree").then((response) => {
+                this.treeData = response.data;
+              });
+            },
+            components: {
+              "tree-view": {
+                props: ["data"],
+                template: `
+                  <ul>
+                    <li v-for="node in data">
+                      {% raw %}
+                      {{ node.name }}
+                      {% endraw %}
+                      <tree-view v-if="node.children" :data="node.children"></tree-view>
+                    </li>
+                  </ul>
+                `,
+              },
+            },
+          },
+        },
+      ];
+
+      const router = new VueRouter({
+        routes,
+      });
+
+      new Vue({
+        router,
+      }).$mount("#app");
+    </script>
+  
+  </body>
 </html>
+
 
 {% endblock %}

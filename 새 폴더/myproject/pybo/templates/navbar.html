@@ -1,0 +1,40 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+    <div class="container-fluid">
+        {%if g.user %}
+          <a class="navbar-brand" href="{{ url_for('main.list') }}">
+            <img src="/static/img/logo_afreeca.png">
+          </a>
+        {% else %}
+          <a class="navbar-brand" href="{{ url_for('main.index') }}">
+            <img src="/static/img/logo_afreeca.png">
+          </a>
+        {% endif %}
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            {% if g.user %}
+            <ul class="navbar-nav navbar-right">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('auth.logout') }}">{{ g.user.username }} (로그아웃)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('visual._visual') }}">L4 시각화 템플릿</a>
+                </li>
+                {%if g.user.username == 'admin'%}
+                  <li class="nav-item">
+                      <a class="nav-link" href="{{ url_for('auth.signup') }}">계정생성</a>
+                  </li>
+                {%endif%}
+
+
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+</nav>

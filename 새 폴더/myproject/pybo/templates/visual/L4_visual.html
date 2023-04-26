@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<html>
+        <head>
+          <title> Test </title>
+          <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+          <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+          <py-env>
+            - numpy
+            - requests
+            - paths:
+              - ././static/visual_view.py
+          </py-env>
+        </head>
+        <body>
+
+							   <br>
+                 <py-script src = "././static/visual_view.py"></py-script>
+
+                 <!--
+                 <div>{{data}}</div>
+                  -->
+        </body>
+</html>
+
+{% endblock %}
