@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AfreecaTV L4 Management</title>
+
+  </head>
+  <body>
+    <br>
+    <h3>2023년 2월 데이터 추출 하려면 아래 전월 시작을 1월로 설정 </h3>
+    <br>
+    <form method="POST" action="/network/result" enctype="multipart/form-data">
+      <label for="ad_id">AD 계정 입력 : &nbsp</label>
+      <input type="text" name="ad_id" id="ad_id">
+      <br>
+      <label for="ad_pw">비밀번호 입력 : </label>
+      <input type="password" name="ad_pw" id="ad_pw">
+      <br>
+      <label for="input_field1">(ex 2021-03-01 00:00) 전월 시작 날짜를 입력 하세요: </label>
+      <input type="text" name="input_field1" id="input_field1">
+      <br>
+      <label for="input_field2">(ex 2021-03-31 23:59) 전월 종료 날짜를 입력 하세요: </label>
+      <input type="text" name="input_field2" id="input_field2">
+      <br>
+      <label for="input_field3">(ex 2021-04-01 00:00) 당월 시작 날짜를 입력 하세요: </label>
+      <input type="text" name="input_field3" id="input_field3">
+      <br>
+      <label for="input_field4">(ex 2021-04-30 23:59) 당월 종료 날짜를 입력 하세요: </label>
+      <input type="text" name="input_field4" id="input_field4">
+      <br>
+      <label for="file_field">파일 업로드:</label>
+      <input type="file" name="file_field1" id="file_field1" multiple>
+
+      <!-- 추가적인 입력 필드가 있을 경우, 필요에 따라 필드를 추가하면 됩니다. -->
+      <input type="submit" value="제출">
+      <br><br><br>
+
+      <ul>
+      업로드 파일 4개 (각각 어드민에서 다운)
+       <li>시청 통계 -> 최고 동시 시청 -> 전체(일별)  &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  [파일명 : watch_max_all_d_all]</li>
+       <li>시청 통계 -> 최고 동시 시청 -> 화질(일별) -> PC &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  [파일명 : watch_max_bps_d_all_p]</li>
+       <li>시청 통계 -> 최고 동시 시청 -> 화질(일별) -> 모바일 &nbsp&nbsp  [파일명 : watch_max_bps_d_all_m]</li>
+       <li>방송 통계 -> 최고 동시 방송 -> 전체(일별) &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  [파일명 : broad_max_all_d_all]</li><br>
+       <li>다운받은 파일 앞에 시간 지우기 <br>ex) 20230525145605_broad_max_all_d_all ==> broad_max_all_d_all </li>
+      </ul>
+
+    </form>
+    <br><br><br>
+    <h5>추출까지 약 3분 소요</h5>
+  </body>
+</html>
+
+{% endblock %}

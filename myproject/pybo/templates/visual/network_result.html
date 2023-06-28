@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AfreecaTV L4 Management</title>
+
+  </head>
+  <body>
+    <br><br><br><br>
+    <div>
+      <a href="{{ url_for('network.download_file')}}">파일 다운로드</a>
+    </div>
+
+  </body>
+</html>
+
+{% endblock %}

@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
     <div class="container-fluid">
         {%if g.user %}
-          <a class="navbar-brand" href="{{ url_for('main.list') }}">
+          <a class="navbar-brand" href="{{ url_for('visual._visual') }}">
             <img src="/static/img/logo_afreeca.png">
           </a>
         {% else %}
@@ -24,8 +24,16 @@
                     <a class="nav-link" href="{{ url_for('auth.logout') }}">{{ g.user.username }} (로그아웃)</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('visual._visual') }}">L4 시각화 템플릿</a>
+                    <a class="nav-link" href="{{ url_for('visual._visual') }}">GSLB</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('network._network') }}">Network Report</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('question._list') }}">게시판</a>
+                </li>
+
                 {%if g.user.username == 'admin'%}
                   <li class="nav-item">
                       <a class="nav-link" href="{{ url_for('auth.signup') }}">계정생성</a>

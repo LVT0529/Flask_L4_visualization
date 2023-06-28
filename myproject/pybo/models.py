@@ -66,5 +66,39 @@ class L4_wideip(db.Model):
     wideip_lbmod = db.Column(db.String(20), nullable=False)
     wideip_rcof = db.Column(db.String(20), nullable=False)
 
+
 class L4_pool(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+
+    wideip = db.Column(db.String(200),  nullable=False)
+    pool = db.Column(db.String(200),  nullable=False)
+    ratio = db.Column(db.Integer)
+    order = db.Column(db.Integer)
+
+
+class L4_pool_option(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+
+    pool = db.Column(db.String(200), unique=True, nullable=False)
+    pool_ttl = db.Column(db.Integer)
+    pool_status = db.Column(db.String(20), nullable=False)
+    pool_en = db.Column(db.String(20), nullable=False)
+    pool_lbmod = db.Column(db.String(20), nullable=False)
+    pool_alter = db.Column(db.String(20), nullable=False)
+    pool_fallback = db.Column(db.String(20), nullable=False)
+    pool_avail = db.Column(db.String(20), nullable=False)
+
+class L4_poolmbr(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+
+    pool = db.Column(db.String(200),  nullable=False)
+    poolmbr = db.Column(db.String(200),  nullable=False)
+    poolmbr_status = db.Column(db.String(20))
+    ratio = db.Column(db.Integer)
+    order = db.Column(db.Integer)
+
+class L4_poolmbr_option(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+
+    poolmbr = db.Column(db.String(200),  nullable=False)
+    poolmbr_status = db.Column(db.String(20), nullable=False)

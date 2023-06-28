@@ -6,9 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+
+
     <!-- pybo CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <title>파이보</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet"  href="{{ url_for('static', filename='styles.css') }}">
+
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css"
+      rel="stylesheet"
+    />
+    <title>아프리카TV 네트워크 관리 페이지</title>
 </head>
 <body>
 <!-- 네비게이션바 -->
@@ -20,8 +41,52 @@
 <script src="{{ url_for('static', filename='jquery-3.6.3.min.js') }}"></script>
 <!-- Bootstrap JS -->
 <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+
+<script src="{{ url_for('static', filename='bootstrap-treeview.js') }}"></script>
+
+
+<script src="{{ url_for('static', filename='t_jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='t_popper.js') }}"></script>
+<script src="{{ url_for('static', filename='t_main.js') }}"></script>
+<script src="{{ url_for('static', filename='t_bootstrap.min.js') }}"></script>
+
+
+<script type="text/javascript" src="https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/docs-app/js/bundles/4.20.0/compiled.min.js"></script>
+
 <!-- 자바스크립트 Start -->
 {% block script %}
+<script type="text/javascript">
+$(document).ready(function() {
+  $('.treeview-animated').mdbTreeview();
+});
+</script>
+
+<script>
+$(document).ready(function() {
+  $('#myButton').click(function() {
+    $.ajax({
+      url: '/visual/visual/run_function',  // Flask 라우트 URL
+      type: 'GET',
+      success: function(response) {
+        window.location.href = '/visual/visual';
+        alert ('데이터 갱신 성공');
+      },
+      error: function(xhr, status, error) {
+        alert('작업 실패 (관리자에게 문의)');
+      }
+    });
+  });
+});
+
+$(document).ready(function() {
+  $('#myButton').click(function() {
+    alert('작업 완료까지 약 1분 소요 예정');
+  });
+});
+
+
+</script>
+
 {% endblock %}
 <!-- 자바스크립트 End -->
 </body>
