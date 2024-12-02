@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AfreecaTV L4 Management</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-router@3.5.2/dist/vue-router.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuedraggable@2.24.3/dist/vuedraggable.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+
+
+  </head>
+  <body>
+
+    <div class="wrapper d-flex align-items-stretch">
+      {% include 'sidebar.html' %}
+
+      <div style = "padding: 0px 20px 20px 20px; width:1600px;">
+      <table class="table">
+          <thead>
+          <tr class="text-center table-light">
+              <th>번호</th>
+              <th style="width:55%">Wideip List</th>
+              <th>Record</th>
+              <th>State</th>
+              <th>LBmod</th>
+              <th>Return_Code_On_Failure</th>
+          </tr>
+          </thead>
+
+
+          <tbody>
+
+              <br>
+              {% for w_node in wideip_data %}
+              <tr class="text-center">
+
+
+                <td> {{ w_node.id }}</td>
+
+                <td> <span class="wideip">{{w_node.wideip}} </span> </td>
+
+
+                <td>{{w_node.wideip_record}}</td>
+                {% if w_node.wideip_status == 'green' %}
+                  <td><i class="fas fa-check-circle text-success"></i></td>
+                {% elif w_node.wideip_status == 'red' %}
+                  <td><i class="fas fa-times-circle text-danger"></i></td>
+                {% else %}
+                  <td><i class="fas fa-question-circle text-primary"></i></td>
+                {% endif %}
+
+                <td>{{w_node.wideip_lbmod}}</td>
+                <td>{{w_node.wideip_rcof}}</td>
+
+              </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+      </div>
+
+  </body>
+</html>
+
+{% endblock %}
+

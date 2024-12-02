@@ -1,0 +1,272 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tree Checkbox</title>
+    <!-- jQuery 라이브러리 추가 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <title>Zoomed-in Excel-like Tables</title>
+    <style type="text/css">
+        
+        .content-wrapper { 
+            display: flex;
+        }
+        /* 'https://codepen.io/Sagar_Patil/pen/mYdNYw' 사이드바 템플릿*/ 
+        .sidebar { /*사이드바 스타일 */
+            width: 260px; 
+            min-height: 100vh; /* 화면의 최소 높이를 100vh로 설정 */
+            float: left;
+            border-right: 2px solid #0c0c0c;
+            padding-right: 20px;
+            box-sizing: border-box;
+            background-color: #e4e1e1;
+            overflow: auto; /* 내용이 사이드바 높이를 초과할 경우 스크롤 표시 */
+        }
+
+        .main-content {
+            flex: 1;
+        }
+
+        .tg  {
+            border-collapse:collapse;
+            border-color:#9ABAD9;
+            border-spacing:0;
+            display:inline-block;
+            margin-right:20px;
+            font-size: 12px; /* Larger font */
+        }
+
+        .center-text-row {
+            text-align: center;
+        }
+        .tg td {
+            background-color:#EBF5FF;
+            border-color:#9ABAD9;
+            border-style:solid;
+            border-width:2px; /* Thicker borders */
+            color:#444;
+            font-family:Arial, sans-serif;
+            overflow:hidden;
+            padding:8px 5px; /* Increased padding */
+            word-break:normal;
+        }
+        .tg th {
+            background-color:#409cff;
+            border-color:#9ABAD9;
+            border-style:solid;
+            border-width:2px; /* Thicker borders */
+            color:#fff;
+            font-family:Arial, sans-serif;
+            font-weight:normal;
+            overflow:hidden;
+            padding:8px 3px; /* Increased padding */
+            word-break:normal;
+        }
+        .tg .tg-0lax {
+            text-align:left;
+            vertical-align:top
+        }
+        .table-wrapper {
+            display: inline-block;
+        }
+        /* ... Your existing styles ... */
+        fieldset {
+            width: 270px;
+            padding: 20px;
+            padding-bottom: 30px;
+            padding-right:30px;
+            border: 3px solid blue; /* 예시로 검은색 테두리를 추가했습니다. */
+        }
+
+        .plus, .minus {
+            display: inline-block; 
+            background-repeat: no-repeat;
+            background-size: 16px 16px !important;
+            width: 16px;
+            height: 16px; 
+            /*vertical-align: middle;*/
+        }
+
+        .plus {
+            background-image: url(https://img.icons8.com/color/48/000000/plus.png);
+        }
+
+        .minus {
+            background-image: url(https://img.icons8.com/color/48/000000/minus.png);
+        }
+
+        ul {
+            list-style: none;
+            padding: 0px 0px 0px 20px;
+        }
+
+            ul.inner_ul li:before {
+                content: "├";
+                font-size: 18px;
+                margin-left: -11px;
+                margin-top: -5px;
+                vertical-align: middle;
+                float: left;
+                width: 8px;
+                color: #41424e;
+            }
+
+            ul.inner_ul li:last-child:before {
+                content: "└";
+                transform: scale(1.1);
+            }
+
+        .inner_ul {
+            padding: 0px 0px 0px 35px;
+        }
+
+
+        /* 글자 크기를 키우기 위한 스타일 */
+        .tree_main span, .tree_main li {
+            font-size: 17px; /* 원하는 글자 크기로 조정 */
+        }
+
+        /* 체크박스 크기를 키우기 위한 스타일 */
+        .tree_main input[type="checkbox"] {
+            transform: scale(1); /* 체크박스를 1.5배 크게 */
+        }
+    </style>
+</head>
+<body>
+    <div class="content-wrapper">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- 사이드바 영역 시작 -->
+            <form method="POST" action="/info/DB" enctype="multipart/form-data">
+                <button >DB Data refresh</button>    
+            </form>
+            <p>Last refreshed: {{ current_time }}</p>
+            <hr style="border: solid 3px rgb(156, 156, 158); width: 100%;">
+            <form method="POST" action="/info/result" enctype="multipart/form-data">
+                <div class="tree_main">
+                    <ul id="bs_main" class="main_ul">
+                        <li id="bf_1">
+                            <span class="plus">&nbsp;</span>
+                            <input type="checkbox" id="c_bf_1" />
+                            <span> 4F 장비 </span>
+                            <ul id="bf_l_1" style="display: none" class="inner_ul">
+                                <li id="bf_1">
+                                    <span class="plus">&nbsp;</span>
+                                    <input type="checkbox" id="c_bf_1" />
+                                    <span> TRS </span>
+                                    <ul id="bf_l_1" style="display: none" class="inner_ul">
+                                        <li id="io_1">
+                                            <input type="checkbox" name="device" value="TRS01_SW" id="c_io_1" /><span>TRS01_SW </span></li>
+                                        <li id="io_2">
+                                            <input type="checkbox" name="device" value="TRS02_SW" id="c_io_2" /><span>TRS02_SW</span></li>
+                                        <li id="io_3">
+                                            <input type="checkbox" name="device" value="TRS03_SW" id="c_io_3" /><span>TRS03_SW</span></li>
+                                        <li id="io_4">
+                                            <input type="checkbox" name="device" value="TRS04_SW" id="c_io_4" /><span>TRS04_SW</span></li>
+                                        <li id="io_5">
+                                            <input type="checkbox" name="device" value="TRS05_SW" id="c_io_5" /><span>TRS05_SW</span></li>
+                                        <li id="io_6">
+                                            <input type="checkbox" name="device" value="TRS06_SW" id="c_io_6" /><span>TRS06_SW </span></li>
+                                        <li id="io_7">
+                                            <input type="checkbox" name="device" value="TRS07_SW" id="c_io_7" /><span>TRS07_SW</span></li>
+                                        <li id="io_8">
+                                            <input type="checkbox" name="device" value="TRS08_SW" id="c_io_8" /><span>TRS08_SW</span></li>
+                                        <li id="io_9">
+                                            <input type="checkbox" name="device" value="TRS09_SW" id="c_io_9" /><span>TRS09_SW</span></li>
+                                        <li id="io_10">
+                                            <input type="checkbox" name="device" value="TRS10_SW" id="c_io_10" /><span>TRS10_SW</span></li>
+                                        <li id="io_11">
+                                            <input type="checkbox" name="device" value="TRS11_SW" id="c_io_11" /><span>TRS11_SW </span></li>
+                                        <li id="io_12">
+                                            <input type="checkbox" name="device" value="TRS12_SW" id="c_io_12" /><span>TRS12_SW</span></li>
+                                        <li id="io_13">
+                                            <input type="checkbox" name="device" value="TRS13_SW" id="c_io_13" /><span>TRS13_SW</span></li>
+                                        <li id="io_14">
+                                            <input type="checkbox" name="device" value="TRS14_SW" id="c_io_14" /><span>TRS14_SW</span></li>
+                                        <li id="io_15">
+                                            <input type="checkbox" name="device" value="TRS15_SW" id="c_io_15" /><span>TRS15_SW</span></li>        
+                                        <li id="io_16">
+                                            <input type="checkbox" name="device" value="TRS16_SW" id="c_io_16" /><span>TRS16_SW</span></li>                  
+                                        </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <input type="submit" value="Generate Table">
+            </form>
+
+    
+    <script>
+        $(document).ready(function () {
+            $(".plus").click(function () {
+                $(this).toggleClass("minus").siblings("ul").toggle();
+            })
+
+            $("input[type=checkbox]").click(function () {
+                //alert($(this).attr("id"));
+                //var sp = $(this).attr("id");
+                //if (sp.substring(0, 4) === "c_bs" || sp.substring(0, 4) === "c_bf") {
+                    $(this).siblings("ul").find("input[type=checkbox]").prop('checked', $(this).prop('checked'));
+                //}
+            })
+
+            $("input[type=checkbox]").change(function () {
+                var sp = $(this).attr("id");
+                if (sp.substring(0, 4) === "c_io") {
+                    var ff = $(this).parents("ul[id^=bf_l]").attr("id");
+                    if ($('#' + ff + ' > li input[type=checkbox]:checked').length == $('#' + ff + ' > li input[type=checkbox]').length) {
+                        $('#' + ff).siblings("input[type=checkbox]").prop('checked', true);
+                        check_fst_lvl(ff);
+                    }
+                    else {
+                        $('#' + ff).siblings("input[type=checkbox]").prop('checked', false);
+                        check_fst_lvl(ff);
+                    }
+                }
+
+                if (sp.substring(0, 4) === "c_bf") {
+                    var ss = $(this).parents("ul[id^=bs_l]").attr("id");
+                    if ($('#' + ss + ' > li input[type=checkbox]:checked').length == $('#' + ss + ' > li input[type=checkbox]').length) {
+                        $('#' + ss).siblings("input[type=checkbox]").prop('checked', true);
+                        check_fst_lvl(ss);
+                    }
+                    else {
+                        $('#' + ss).siblings("input[type=checkbox]").prop('checked', false);
+                        check_fst_lvl(ss);
+                    }
+                }
+            });
+
+        })
+
+        function check_fst_lvl(dd) {
+            //var ss = $('#' + dd).parents("ul[id^=bs_l]").attr("id");
+            var ss = $('#' + dd).parent().closest("ul").attr("id");
+            if ($('#' + ss + ' > li input[type=checkbox]:checked').length == $('#' + ss + ' > li input[type=checkbox]').length) {
+                //$('#' + ss).siblings("input[id^=c_bs]").prop('checked', true);
+                $('#' + ss).siblings("input[type=checkbox]").prop('checked', true);
+            }
+            else {
+                //$('#' + ss).siblings("input[id^=c_bs]").prop('checked', false);
+                $('#' + ss).siblings("input[type=checkbox]").prop('checked', false);
+            }
+
+        }
+
+        function pageLoad() {
+            $(".plus").click(function () {
+                $(this).toggleClass("minus").siblings("ul").toggle();
+            })
+        }
+    </script>
+
+</body>
+</html>
+{% endblock %}

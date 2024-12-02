@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title> IPinfo </title>
+    <style>
+        * {
+          font-size: 16px;
+          font-family: Consolas, sans-serif;
+          box-sizing: border-box;
+        }
+        textarea {
+          width: 100%;
+          height: 100%;
+          resize: none;
+          padding: 10px;
+        }
+        #container {
+          display: flex;
+          gap: 100px; /*입력 창과 결과 창 사이 갭간격 조절 부분*/
+          padding: 20px; /*입력 창과 결과 창 상하좌우 빈공간 간격 조절 부분*/
+          height: calc(100vh - 80px);
+        }
+        #input-container {
+          width: 33.33%;
+          height: 100%;
+          padding: 10px;
+        /*box-shadow: 0 0 5px rgba(0,0,0,0.1);*/
+        }
+        #result {
+          width: 66.66%;
+          height: 100%;
+          border: 1px solid #ccc;
+          padding: 10px;
+          overflow-y: auto;
+          box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+        form {
+          margin: 0;
+        }
+        body {
+          margin: 0;
+          padding: 0;
+        }
+        #submit-container {
+          text-align: center;
+          padding: 10px 0;
+        }
+    </style>
+  </head>
+  <body>
+    <form method="POST" action="/ipinfo/result" enctype="multipart/form-data">
+      <input type="submit" value="IP 정보 확인">     
+      <div id="container">                  
+            <div id="input-container">
+                <textarea name="IP" placeholder="확인할 IP 정보를 기입하세요." id="IP"></textarea>
+            </div>
+            <div id="result">결과 창</div>
+      </div>     
+    </form>
+  
+    
+
+  <!--로딩 화면 컨테이너 id = 아래 자바 스크립트 요소 접근, style는 기본적으로 안보이게 하는 요서-->
+  <div class="loading-wrap" id="loading" style="display:none;"> 
+    <div class="loading-spinner"></div>
+    <h3>페이지가 로딩 중입니다...</h3>
+  </div>
+
+  <!--form 안에 있는 동기화 눌렀을때 이벤트 핸들러 함수가 호출 되고 loading 함수 요소를 찾아 숨겨져 있던 "페이지가 로딩 중입니다..." 페이지가 노출됨 -->
+  <script>    
+    document.querySelector('form').onsubmit = function() {
+        document.getElementById('loading').style.display = 'flex';
+    };
+  </script>  
+  </body>
+</html>
+{% endblock %}

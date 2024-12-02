@@ -4,9 +4,6 @@ import sys
 
 from flask import request
 
-import matplotlib.pyplot as plt
-from matplotlib.backends.backend_agg import FigureCanvas
-from matplotlib.figure import Figure
 
 import paramiko
 import time
@@ -336,8 +333,108 @@ def poolpoolmbr_ssh():
     stdin, stdout, stderr = client.exec_command('snmpwalk -v 2c -Os -c skdnzha localhost  1.3.6.1.4.1.3375.2.3.6.7.2.1.8') # pool_mbr_status
     pool_mbr_status = stdout.read().decode()
 
-    #print (pool_mbr_status)
+    stdin, stdout, stderr = client.exec_command('snmpwalk -v 2c -Os -c skdnzha localhost  .1.3.6.1.4.1.3375.2.3.6.1.2.1.35') # pool_monitor
+    pool_monitor = stdout.read().decode()
 
+    stdin, stdout, stderr = client.exec_command('snmpwalk -v 2c -Os -c skdnzha localhost  .1.3.6.1.4.1.3375.2.3.11.1.2.1.21') # vs_monitor
+    vs_monitor = stdout.read().decode()
+
+    stdin, stdout, stderr = client.exec_command('snmpwalk -v 2c -Os -c skdnzha localhost  .1.3.6.1.4.1.3375.2.3.9.1.2.1.19') # vs_monitor
+    s_monitor = stdout.read().decode()
+
+
+
+
+
+
+
+    stdin, stdout, stderr = client.exec_command('snmpwalk -v 2c -Os -c skdnzha localhost  .1.3.6.1.4.1.3375.2.3.9.1.2.1.1') # vs_monitor
+    server = stdout.read().decode()
+
+
+    stdin, stdout, stderr = client.exec_command('snmpwalk -v 2c -Os -c skdnzha localhost  .1.3.6.1.4.1.3375.2.3.6.1.2.1.1') # pool_list
+    pool = stdout.read().decode()
+
+    stdin, stdout, stderr = client.exec_command('snmpwalk -v 2c -Os -c skdnzha localhost  .1.3.6.1.4.1.3375.2.3.11.1.2.1.4') # virtualserver_list
+    vs = stdout.read().decode()
+
+
+
+    pool_monitor = pool_monitor.split("\n")
+    vs_monitor = vs_monitor.split("\n")
+    s_monitor = s_monitor.split("\n")
+    pool = pool.split("\n")
+    vs = vs.split("\n")
+    server = server.split("\n")
+
+    pool_mapp = []
+    vs_mapp = []
+    s_mapp = []
+    result = []
+    temp = []
+
+    for i in range(len(pool)-1):
+        pool_monitor_temp = pool_monitor[i].split("STRING: ")
+        pool_temp = pool[i].split("STRING: /Common/")
+
+        pool_monitor_temp = pool_monitor_temp[1].split("_")
+
+        for k in range(len(pool_monitor_temp)):
+            tem_split = pool_monitor_temp[k].split(" ")
+            if(tem_split[0].isdigit() or tem_split[0] == "gwicmp"):
+                temp.append(tem_split[0])
+
+        result.append(pool_temp[1])
+        result.append(temp)
+
+        pool_mapp.append(result)
+        #print(result)
+
+        result = []
+        temp = []
+
+    for i in range(len(vs)-1):
+        vs_monitor_temp = vs_monitor[i].split("STRING: ")
+        vs_temp = vs[i].split("STRING: ")
+
+        vs_monitor_temp = vs_monitor_temp[1].split("_")
+
+
+        for k in range(len(vs_monitor_temp)):
+            tem_split = vs_monitor_temp[k].split(" ")
+            if(tem_split[0].isdigit() or tem_split[0] == "gwicmp"):
+                temp.append(tem_split[0])
+
+        result.append(vs_temp[1])
+        result.append(temp)
+
+        #print(result)
+
+        vs_mapp.append(result)
+
+        result = []
+        temp = []
+
+    for i in range(len(server)-1):
+        s_monitor_temp = s_monitor[i].split("STRING:")
+        server_temp = server[i].split("STRING: /Common/")
+
+        s_monitor_temp = s_monitor_temp[1].split("_")
+
+        for k in range(len(s_monitor_temp)):
+            tem_split = s_monitor_temp[k].split(" ")
+            if(tem_split[0].isdigit() or tem_split[0] == "gwicmp"):
+                temp.append(tem_split[0])
+
+        result.append(server_temp[1])
+        result.append(temp)
+
+        s_mapp.append(result)
+        #print(result)
+        result = []
+        temp = []
+
+    #print(s_mapp)
 
     result = []
     poolpoolmbr_mapp = []
@@ -348,6 +445,8 @@ def poolpoolmbr_ssh():
     pool_mbr_order = pool_mbr_order.split("\n")
     pool_mbr_status = pool_mbr_status.split("\n")
 
+    monitor_temp = []
+
 
     for i in range(len(pool_list)):
         pool_list_temp = pool_list[i].split("STRING: /Common/")
@@ -355,8 +454,6 @@ def poolpoolmbr_ssh():
         pool_mbr_ratio_temp = pool_mbr_ratio[i].split("INTEGER: ")
         pool_mbr_order_temp = pool_mbr_order[i].split("INTEGER: ")
         pool_mbr_status_temp = pool_mbr_status[i].split("STRING: ")
-
-
 
         if(pool_list_temp[0] == ""):
             break
@@ -367,15 +464,40 @@ def poolpoolmbr_ssh():
 
             result.append(pool_list_temp[0])
 
+
             if(pool_mbr_temp[1] == '.a.'):
                 pool_mbr_p = pool_mbr_temp[7].split("STRING: ")
-                if(pool_mbr_p[1] == 'aflxchatbmtrds'):
+
+
+                if( 'aflxchatbmtrds' in pool_mbr_p[1]):
+                    for l in range(len(s_mapp)):
+                        if('aflxchatbmtrds' in s_mapp[l][0]):
+                            monitor_temp = s_mapp[l][1]
+
                     result.append(pool_mbr_temp[6])
+                    pool_mbr_ip = pool_mbr_temp[6].split("_")
+                    result.append(pool_mbr_ip[len(pool_mbr_ip) - 1])
+
                 else:
                     result.append(pool_mbr_p[1])
+                    pool_mbr_ip = pool_mbr_p[1].split("_")
+                    result.append(pool_mbr_ip[len(pool_mbr_ip) - 1])
+
+                for k in range(len(vs_mapp)):
+                    if( ((pool_mbr_temp[6] or pool_mbr_p[1])in vs_mapp[k] ) and (len(monitor_temp) == 0)):
+                        monitor_temp = vs_mapp[k][1]
+
 
             elif(pool_mbr_temp[1] == '.cname.'):
                 result.append(pool_mbr_temp[4])
+
+                result.append("")
+                monitor_temp = ""
+
+            if(len(monitor_temp) == 0 ):
+                for k in range(len(pool_mapp)):
+                    if(pool_list_temp[0] in pool_mapp[k]):
+                        monitor_temp = pool_mapp[k][1]
 
 
             result.append(pool_mbr_ratio_temp[0])
@@ -393,11 +515,15 @@ def poolpoolmbr_ssh():
                     result.append(pool_mbr_status_temp_p[1])
                 else:
                     result.append(pool_mbr_status_temp[1])
+            result.append(monitor_temp)
 
+            print(result)
 
             poolpoolmbr_mapp.append(result)
 
             result = []
+            monitor_temp = ""
+    
 
     # SSH 연결 종료
     client.close()
@@ -474,3 +600,249 @@ def poolmbr_ssh():
     client.close()
 
     return pool_mbr_mapp
+
+def slb_ssh(slb1, slb2, slb_pw):
+    # SSH 클라이언트 생성
+    client = paramiko.SSHClient()
+    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
+    # SSH 접속 정보 설정
+    hostname = slb1
+    port = 22
+    username = 'root'
+    password = slb_pw
+
+    # SSH 연결
+    client.connect(hostname, port=port, username=username, password=password)
+    transport = client.get_transport()
+
+    if transport.is_active():
+        print('SSH connection established successfully!')
+    else:
+        print('Failed to establish SSH connection!')
+
+
+    ##################Client 1#####################
+    # SSH 클라이언트 생성
+    client1 = paramiko.SSHClient()
+    client1.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
+    # SSH 접속 정보 설정
+    hostname = slb2
+    port = 22
+    username = 'root'
+    password = slb_pw
+
+    # SSH 연결
+    client1.connect(hostname, port=port, username=username, password=password)
+    transport = client1.get_transport()
+
+    if transport.is_active():
+        print('SSH connection established successfully!')
+    else:
+        print('Failed to establish SSH connection!')
+
+
+    stdin, stdout, stderr = client.exec_command('snmpwalk -Os -c skdnzha -v 2c 127.0.0.1 1.3.6.1.4.1.3375.2.1.1.2.20.21') # pool list
+    cpu1 = stdout.read().decode()
+
+
+
+    stdin, stdout, stderr = client1.exec_command('snmpwalk -Os -c skdnzha -v 2c 127.0.0.1 1.3.6.1.4.1.3375.2.1.1.2.20.21') # pool list
+    cpu2 = stdout.read().decode()
+
+    cpu1 = cpu1.split("Gauge32: ")
+    cpu2 = cpu2.split("Gauge32: ")
+
+    print(cpu1)
+    print(cpu2)
+
+
+    cpu1 = int (cpu1[1])
+    cpu2 = int (cpu2[1])
+    low_cpu = 0
+
+    if(cpu1 < cpu2):
+        client1.close()
+        low_cpu = cpu1
+    else:
+        client.close()
+        client = client1
+        low_cpu = cpu2
+
+    if (low_cpu > 80):
+        client.close()
+
+
+
+    # pool 속성
+    stdin, stdout, stderr = client.exec_command('snmpwalk -v 2c -Os -c skdnzha localhost  .1.3.6.1.4.1.3375.2.2.10.1.2.1.1') # pool list
+    pool_list = stdout.read().decode()
+
+    stdin, stdout, stderr = client.exec_command('snmpwalk -v 2c -Os -c skdnzha localhost  .1.3.6.1.4.1.3375.2.2.10.13.2.1.2') # pool_mbr_list
+    pool_status = stdout.read().decode()
+
+    stdin, stdout, stderr = client.exec_command('snmpwalk -v 2c -Os -c skdnzha localhost  .1.3.6.1.4.1.3375.2.2.10.1.2.1.3') # pool_mbr_ratio
+    pool_vip = stdout.read().decode()
+
+
+
+
+    stdin, stdout, stderr = client.exec_command('snmpwalk -v 2c -Os -c skdnzha localhost  .1.3.6.1.4.1.3375.2.2.5.3.2.1.1') # pool_mbr_order
+    pool_node_list = stdout.read().decode()
+
+    stdin, stdout, stderr = client.exec_command('snmpwalk -v 2c -Os -c skdnzha localhost  .1.3.6.1.4.1.3375.2.2.5.3.2.1.19') # pool_mbr_status
+    node_list = stdout.read().decode()
+
+    stdin, stdout, stderr = client.exec_command('snmpwalk -v 2c -Os -c skdnzha localhost  .1.3.6.1.4.1.3375.2.2.5.3.2.1.4') # pool_mbr_status
+    node_port = stdout.read().decode()
+
+    stdin, stdout, stderr = client.exec_command('snmpwalk -v 2c -Os -c skdnzha localhost  .1.3.6.1.4.1.3375.2.2.5.3.2.1.3') # pool_mbr_status
+    node_ip = stdout.read().decode()
+
+    stdin, stdout, stderr = client.exec_command('snmpwalk -v 2c -Os -c skdnzha localhost  .1.3.6.1.4.1.3375.2.2.5.6.2.1.5') # pool_mbr_status
+    node_status = stdout.read().decode()
+
+
+
+    #print (pool_mbr_status)
+
+
+    result = []
+    pool_mapp = []
+    temp = []
+
+    pool_list = pool_list.split("\n")
+    pool_status = pool_status.split("\n")
+    pool_vip = pool_vip.split("\n")
+
+
+    for i in range(len(pool_list)-1):
+
+        if(hostname in '121.125.76.126'):
+            pool_list_temp = pool_list[i].split("STRING: ")
+        else:
+            pool_list_temp = pool_list[i].split("STRING: /Common/")
+       
+        #print(pool_list_temp) 
+
+
+        pool_vip_temp = pool_vip[i].split("STRING: ")
+        
+    
+        pool_status_temp = pool_status[i].split("INTEGER: ")
+   
+
+        dec_value = ""
+
+        if(pool_list_temp[0] == ""):
+            break
+        else:
+            pool_list_temp = pool_list_temp[1].split("_vs")
+
+            if(hostname in '1.234.43.189' or hostname in '1.234.43.190'):
+                temp = pool_list_temp[0].split("_")
+                pool_list_temp[0] = temp[0] + "_" + temp[1] + "_" + temp[3]
+                            
+
+            pool_vip_temp = pool_vip_temp[1].split(" ")
+            pool_status_temp = pool_status_temp[1].split("(")
+
+            result.append(pool_list_temp[0])
+
+
+            for k in range(len(pool_vip_temp)-1):
+                dec_temp = int(pool_vip_temp[k], 16)
+                dec_value += str(dec_temp)
+
+                if( k < 3):
+                    dec_value += "."
+
+            result.append(dec_value)
+            result.append(pool_status_temp[0])
+
+            temp = pool_list_temp[0].split("_")
+            print(temp)
+            result.append(temp[0])
+            result.append(temp[2])
+
+            pool_mapp.append(result)
+            result = []
+
+
+
+    result = []
+    pool_node_mapp = []
+
+    pool_node_list = pool_node_list.split("\n")
+    node_list = node_list.split("\n")
+    node_port = node_port.split("\n")
+    node_ip = node_ip.split("\n")
+    node_status = node_status.split("\n")
+
+
+    for i in range(len(pool_node_list)-1):
+
+        if(hostname in '121.125.76.126'):
+            pool_node_list_temp = pool_node_list[i].split("STRING: ")
+            node_list_temp = node_list[i].split("STRING: ")
+        else:
+            pool_node_list_temp = pool_node_list[i].split("STRING: /Common/")
+            node_list_temp = node_list[i].split("STRING: /Common/")
+
+        #print(pool_node_list_temp)
+        #print(node_list_temp)
+
+        node_port_temp = node_port[i].split("Gauge32: ")
+        node_ip_temp = node_ip[i].split("STRING: ")
+        node_status_temp = node_status[i].split("INTEGER: ")
+
+        
+
+        dec_value = ""
+
+        if(pool_node_list_temp[0] == ""):
+            break
+        else:
+            node_ip_temp = node_ip_temp[1].split(" ")
+            node_status_temp = node_status_temp[1].split("(")
+
+
+            if(hostname in '1.234.43.189' or hostname in '1.234.43.190'):
+                temp = pool_node_list_temp[1].split("_")
+           
+                if(temp[2] in "http"):
+                    pool_node_list_temp[1] = temp[0] + "_" + temp[1] + "_" + "80"
+                elif(temp[2] in "https"):
+                    pool_node_list_temp[1] = temp[0] + "_" + temp[1] + "_" + "443"
+
+
+            result.append(pool_node_list_temp[1])
+            result.append(node_list_temp[1])
+            result.append(node_port_temp[1])
+
+            for k in range(len(node_ip_temp)-1):
+                dec_temp = int(node_ip_temp[k], 16)
+                dec_value += str(dec_temp)
+
+                if( k < 3):
+                    dec_value += "."
+
+            result.append(dec_value)
+            result.append(node_status_temp[0])
+
+            #print(result)
+
+            pool_node_mapp.append(result)
+            result = []
+            
+
+    # SSH 연결 종료
+    client.close()
+    client1.close()
+    
+    #print(pool_mapp)
+    #print(pool_node_mapp)
+
+    return pool_mapp, pool_node_mapp
+

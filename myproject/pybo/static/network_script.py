@@ -7,6 +7,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
+import chromedriver_autoinstaller
 import operator
 import time
 import os
@@ -20,18 +21,21 @@ from openpyxl.styles import PatternFill, Font
 import openpyxl
 import datetime
 
-import pytesseract
-
-#pytesseract.pytesseract.tesseract_cmd = r'C:\Users\victory\AppData\Local\Tesseract-OCR\tesseract'
 
 # Headless Web 설정
+chromedriver_autoinstaller.install()
 options = webdriver.ChromeOptions()
-options.add_argument('headless')
-options.add_argument("disable-gpu")
-options.add_argument('window-size=1920x1080')
-options.add_argument("lang=ko_KR")
-driver = webdriver.Chrome(options=options, executable_path = os.getcwd() + '\pybo\static\chromedriver')
+options.add_argument('--headless')
+options.add_argument("--disable-gpu")
+options.add_argument('--window-size=1920x1080')
+options.add_argument("--lang=ko_KR")
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-dev-shm-usage")
+driver = webdriver.Chrome(options=options, executable_path = '/root/venv/myproject/pybo/static/chromedriver')
 
+#path = '/root/venv/myproject/pybo/static'
+
+#driver = webdriver.Chrome('chromedriver.exe', options=options)
 
 ## 웹 드라이브 실행
 #driver = webdriver.Chrome()
@@ -375,7 +379,7 @@ def network_report(ad_id, ad_pw, startdate_before, enddate_before, startdate_aft
     if not os.path.isdir("Graph_Capture " + now_time):
        os.makedirs("Graph_Capture " + now_time)
        print("Make directory 'Graph_Capture'")
-    os.chdir(os.getcwd() + "\Graph_Capture " + now_time)
+    os.chdir(os.getcwd() + "/Graph_Capture " + now_time)
 
 
     # Graph 이미지  클릭

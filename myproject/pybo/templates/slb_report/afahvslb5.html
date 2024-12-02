@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AfreecaTV L4 Management</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-router@3.5.2/dist/vue-router.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuedraggable@2.24.3/dist/vuedraggable.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+  </head>
+  <body>
+    <div class="wrapper d-flex align-items-stretch">
+      {% include 'sidebar_slb.html' %}
+
+      <div style = "padding: 0px 20px 20px 20px; width:1800px;">
+      <table class="table"  >
+          <thead>
+          <tr class="text-center table-light">
+              <th >번호</th>
+              <th style="width:90%">SLB Domain</th>
+          </tr>
+          </thead>
+
+
+          <tbody>
+
+              <br>
+              {% for pool in pool_data %}
+              <tr class="text-center">
+
+
+                <td> {{ pool.id }}</td>
+                <td class = "text-left">
+                {% if pool.pool_status == 'green' %}
+                  <i class="fas fa-check-circle text-success"></i>
+                {% elif pool.pool_status == 'red' %}
+                  <i class="fas fa-times-circle text-danger"></i>
+                {% else %}
+                  <i class="fas fa-question-circle text-primary"></i>
+                {% endif %}
+                <span class="wideip">{{pool.pool}} </span>
+                <font> &nbsp&nbsp vip - {{pool.pool_vip}} </font>
+
+                {% for node in node_data %}
+                  {% if pool.pool == node.pool %}
+                    <br>
+                    <i class="fas fa-angle-right"></i>
+                    {% if node.node_status == 'green' %}
+                      <i class="fas fa-check-circle text-success"></i>
+                    {% elif node.node_status == 'red' %}
+                      <i class="fas fa-times-circle text-danger"></i>
+                    {% else %}
+                      <i class="fas fa-question-circle text-primary"></i>
+                    {% endif %}
+                    {{node.node}}_{{node.pool_vip}}_{{node.node_port}}
+                  {% endif %}
+                {% endfor %}
+                </td>
+              </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+      </div>
+
+  </body>
+</html>
+
+{% endblock %}
+

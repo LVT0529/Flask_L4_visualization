@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AfreecaTV L4 Management</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-router@3.5.2/dist/vue-router.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuedraggable@2.24.3/dist/vuedraggable.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+  </head>
+  <body>
+    <div class="wrapper d-flex align-items-stretch">
+      {% include 'sidebar_default.html' %}
+
+      <div class="treeview-animated w-20 border mx-4 my-4" style="padding: 20px 20px 20px 20px">
+        <h4>SLB 신규 구성 CLI config 추출</h4> <br>
+
+        <font color="gray">아래 Sample File 참고해서 파일 업로드</font><br><br><br>
+
+        <label for="file_field">파일 예시 다운로드:</label>
+        <a href="{{ url_for('sconfig.download_file')}}">Sample File</a>
+        <br><br>
+
+
+        <form method="POST" action="sconfig/result" enctype="multipart/form-data">
+          <label for="file_field">파일 업로드:</label>
+          <input type="file" name="sconfig_file" id="sconfig_file">
+
+          <!-- 추가적인 입력 필드가 있을 경우, 필요에 따라 필드를 추가하면 됩니다. -->
+          <input type="submit" value="제출">
+          <br><br><br>
+
+<!--          <ul>
+          업로드 파일 4개 (각각 어드민에서 다운)
+           <li>시청 통계 -> 최고 동시 시청 -> 전체(일별)  &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  [파일명 : watch_max_all_d_all]</li>
+           <li>시청 통계 -> 최고 동시 시청 -> 화질(일별) -> PC &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  [파일명 : watch_max_bps_d_all_p]</li>
+           <li>시청 통계 -> 최고 동시 시청 -> 화질(일별) -> 모바일 &nbsp&nbsp  [파일명 : watch_max_bps_d_all_m]</li>
+           <li>방송 통계 -> 최고 동시 방송 -> 전체(일별) &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  [파일명 : broad_max_all_d_all]</li><br>
+           <li>다운받은 파일 앞에 시간 지우기 <br>ex) 20230525145605_broad_max_all_d_all ==> broad_max_all_d_all </li>
+          </ul>
+-->
+        </form>
+      </div>
+
+    </div>
+
+
+  </body>
+</html>
+
+{% endblock %}
+

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AfreecaTV L4 Management</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-router@3.5.2/dist/vue-router.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuedraggable@2.24.3/dist/vuedraggable.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+  </head>
+  <body>
+    <div class="wrapper d-flex align-items-stretch">
+      {% include 'sidebar_slb.html' %}
+
+      <div class="treeview-animated w-20 border mx-4 my-4" style="padding: 20px 20px 20px 20px">
+        <h4>SLB 데이터 동기화</h4> <br>
+        5F -> <button id="afmainslb">afmainSLB</button> &nbsp <button id="afreecaslb">afreecaSLB</button> &nbsp <button id="nowlximgslb">nowlximgSLB</button>
+        <br><br>
+        4F -> <button id="afahvslb3">AFAHVSLB3</button> &nbsp <button id="afahvslb5">AFAHVSLB5</button>
+        <br><br>
+        B2F -> <button id="afimgslb">AFimgSLB</button> &nbsp <button id="kidcslb">KIDC-SLB</button> &nbsp <button id="nliveimgslb">NliveimgSLB</button>
+
+        <br>
+        <br>
+
+        <h6>한번만 클릭 부탁드립니다.</h6>
+        <h6>작업 성공 시 자동으로 메인화면 리다이렉트</h6>
+      </div>
+
+    </div>
+
+
+  </body>
+</html>
+
+{% endblock %}
+

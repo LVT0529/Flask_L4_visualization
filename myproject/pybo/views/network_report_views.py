@@ -1,12 +1,11 @@
 from flask import Blueprint, render_template, url_for, jsonify, request, render_template_string, Flask, send_file
 from werkzeug.utils import redirect
 
-import requests
 import subprocess
 import datetime
 import time
 
-import pandas as pd
+#import pandas as pd
 import io
 import os
 
@@ -23,9 +22,7 @@ from sqlalchemy import update
 
 
 
-#app = Flask(__name__, static_folder="static", static_url_path="/static")
 bp = Blueprint('network', __name__, url_prefix='/')
-#bp = Blueprint('visual', __name__, static_folder="static", static_url_path="/static")
 
 
 @bp.route('/network', methods=('GET', 'POST'))

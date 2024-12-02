@@ -36,15 +36,29 @@ def create_app():
 
 
     #블루프린트
-    from .views import main_views, question_views, answer_views, auth_views, comment_views, L4_visual_views, network_report_views
+    from .views import main_views, question_views, answer_views, auth_views, comment_views, GSLB_visual_views, network_report_views, slb_views, switch_views, slb_config, ipinfo_views
+    from .views.SLB import afmainslb_5F_views, afimgslb_B2F_views, afreecaslb_5F_views, nowlximgslb_5F_views, afahvslb1_4F_views, afahvslb3_4F_views, afahvslb5_4F_views, kidcslb_B2F_views, nliveimgslb_B2F_views, integrated_slb_views
     app.register_blueprint(main_views.bp)
     app.register_blueprint(question_views.bp)
     app.register_blueprint(answer_views.bp)
     app.register_blueprint(auth_views.bp)
     app.register_blueprint(comment_views.bp)
-    app.register_blueprint(L4_visual_views.bp)
+    app.register_blueprint(GSLB_visual_views.bp)
     app.register_blueprint(network_report_views.bp)
-
+    app.register_blueprint(afmainslb_5F_views.bp)
+    app.register_blueprint(afimgslb_B2F_views.bp)
+    app.register_blueprint(afreecaslb_5F_views.bp)
+    app.register_blueprint(nowlximgslb_5F_views.bp)
+    app.register_blueprint(afahvslb1_4F_views.bp)
+    app.register_blueprint(afahvslb3_4F_views.bp)
+    app.register_blueprint(afahvslb5_4F_views.bp)
+    app.register_blueprint(kidcslb_B2F_views.bp)
+    app.register_blueprint(nliveimgslb_B2F_views.bp)
+    app.register_blueprint(slb_views.bp)
+    app.register_blueprint(switch_views.bp) 
+    app.register_blueprint(slb_config.bp)
+    app.register_blueprint(ipinfo_views.bp)
+    app.register_blueprint(integrated_slb_views.bp)
 
     #필터
     from .filter import format_datetime
@@ -52,3 +66,4 @@ def create_app():
 
 
     return app
+

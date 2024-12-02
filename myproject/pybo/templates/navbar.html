@@ -17,28 +17,59 @@
                 aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
             {% if g.user %}
-            <ul class="navbar-nav navbar-right">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('auth.logout') }}">{{ g.user.username }} (로그아웃)</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('visual._visual') }}">GSLB</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('network._network') }}">Network Report</a>
-                </li>
+            <ul class="navbar-nav">
+              <li class="nav-item dropdown">
+                 <a class="nav-link dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false">F5_Switch </a>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('question._list') }}">게시판</a>
-                </li>
+                 <ul class = "dropdown-menu">
+                 <li><a class="dropdown-item" href="{{ url_for('visual._visual') }}">GSLB</a></li>
 
-                {%if g.user.username == 'admin'%}
-                  <li class="nav-item">
-                      <a class="nav-link" href="{{ url_for('auth.signup') }}">계정생성</a>
-                  </li>
-                {%endif%}
+                 <li><a class="dropdown-item" href="{{ url_for('integrated._integrated') }}">SLB</a></li>
+
+
+                 </ul>
+             </li>
+               &nbsp &nbsp
+              <!--
+              <li class="nav-item">
+                  <a class="nav-link" href="{{ url_for('network._network') }}">Network Report</a>
+              </li>
+              -->
+              <li class="nav-item">
+                  <a class="nav-link" href="{{ url_for('slb.sync') }}">SLB 비교</a>
+              </li>
+       
+              {%if g.user.username == '김 동혁' or g.user.username == '이 빅토' or g.user.username == '김 효진' or g.user.username == '김 형필' or g.user.username == '이 상훈' or g.user.username == '이 승회' or g.user.username == '김 병모' or g.user.username == '샤를_정홍규' or g.user.username == '진 태용' %}
+              <li class="nav-item">
+                  <a class="nav-link" href="{{ url_for('sconfig._sconfig') }}">SLB config 추출</a>
+              </li>
+
+              <li class="nav-item">
+                  <a class="nav-link" href="{{ url_for('ipinfo.ipinfo') }}">IPinfo</a>
+              </li>        
+
+
+              <li class="nav-item">
+                  <a class="nav-link" href="{{ url_for('switch.info') }}">Switch</a>
+              </li>
+
+              <li class="nav-item">
+                  <a class="nav-link" href="{{ url_for('question._list') }}">게시판</a>
+              </li>
+              <!--
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('auth.signup') }}">계정생성</a>
+                </li>
+              -->
+              {%endif%}
+
+            </ul>
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                  <a class="nav-link" href="{{ url_for('auth.logout') }}">{{ g.user.username }} (로그아웃)</a>
+              </li>
 
 
             </ul>
@@ -46,3 +77,4 @@
         </div>
     </div>
 </nav>
+

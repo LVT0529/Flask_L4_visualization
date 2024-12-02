@@ -13,19 +13,33 @@
     <script src="https://cdn.jsdelivr.net/npm/vuedraggable@2.24.3/dist/vuedraggable.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
 
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
-
-    <link rel="apple-touch-icon" href="/docs/5.1/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
-    <link rel="icon" href="/docs/5.1/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
-    <link rel="icon" href="/docs/5.1/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
-    <link rel="manifest" href="/docs/5.1/assets/img/favicons/manifest.json">
-    <link rel="mask-icon" href="/docs/5.1/assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
-    <link rel="icon" href="/docs/5.1/assets/img/favicons/favicon.ico">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <style>
+            .right-align {
+                float: right;
+            }
+            .toggle-container {
+                cursor: pointer;
+            }
+            .toggle-content {
+                display: none;
+            }
+            .btn-toggle-all {
+                cursor: pointer;
+                padding: 10px;
+                border: none;
+                background-color: #007bff;
+                color: white;
+                border-radius: 5px;
+                display: flex;
+                align-items: center;
+            }
+            .btn-toggle-all i {
+                margin-right: 5px;
+            }
+            .btn-toggle-all.expanded {
+                background-color: #28a745;
+            }
+    </style>
 
 
 
@@ -33,36 +47,46 @@
 
 
     <div class="wrapper d-flex align-items-stretch">
-			<nav id="sidebar">
+      {% include 'sidebar.html' %}
 
-	  		<h1></h1>
-        <ul class="list-unstyled components mb-5">
-          <li class="active">
-            <a href="{{ url_for('visual._visual') }}"><span class="fa fa-home mr-3"></span> Homepage</a>
-          </li>
-          <!--
-          <li>
-              <a href="#"><span class="fas fa-users"></span>  Connections</a>
-          </li>
-          -->
-          <li>
-            <a href="{{ url_for('visual._visual_data') }}"><span class="fas fa-sync-alt mr-3"></span>Data_refresh</a>
-          </li>
-        </ul>
+      <div style = "padding: 0px 20px 20px 20px; width:1800px;">
 
-    	</nav>
+        <button id="toggle-all" class="btn-toggle-all"  style="display: inline-block;">
+                모두 펼치기
+        </button> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+
+        <form id="itemsPerPageForm" method="get" action="{{ url_for('visual._visual') }}"  style="display: inline-block;">
+            <label for="itemsPerPage">Items per page:</label>
+            <select id="itemsPerPage" name="per_page" onchange="document.getElementById('itemsPerPageForm').submit()">
+              <option value="10" {% if per_page == 10 %}selected{% endif %}>10</option>
+              <option value="20" {% if per_page == 20 %}selected{% endif %}>20</option>
+              <option value="50" {% if per_page == 50 %}selected{% endif %}>50</option>
+              <option value="999" {% if per_page == 999 %}selected{% endif %}>ALL</option>
+            </select>
+        </form>
+
+      <table class="table"  >
+          <thead>
+          <tr class="text-center table-light">
+              <th style="width:5%">번호</th>
+              <th style="width:30%; text-align:left">GSLB Wideip
+                <span class="right-align">Wideip LB_Mod</span>
+              </th>
+              <th style="width:40%; text-align:left"> Pool
+                <span class="right-align">Pool LB_Mod &nbsp&nbsp TTL</span>
+              </th>
+              <th style="width:10%">비 고 </th>
+          </tr>
+          </thead>
 
 
+          <tbody>
+            {% if wideip_list %}
+            {% for w_node in wideip_list.items %}
+              <tr class="text-center">
 
-
-      <div class="treeview-animated w-20 border mx-4 my-4" style="padding: 20px 20px 20px 20px">
-
-            <h4>Wideip &nbsp Record &nbsp State &nbsp LBmod &nbsp Return_Code_On_Failure</h4>
-
-            <br>
-            <ul class="treeview-animated-list mb-3 list-unstyled">
-              {% for w_node in wideip_data %}
-              <li class="treeview-animated-items">
+                <td> {{ w_node.id }}</td>
+                <td class = "text-left">
                 {% if w_node.wideip_status == 'green' %}
                   <i class="fas fa-check-circle text-success"></i>
                 {% elif w_node.wideip_status == 'red' %}
@@ -70,16 +94,16 @@
                 {% else %}
                   <i class="fas fa-question-circle text-primary"></i>
                 {% endif %}
-                <span class="wideip">{{w_node.wideip}} &nbsp {{w_node.wideip_record}}  &nbsp {{w_node.wideip_en}} &nbsp {{w_node.wideip_lbmod}} &nbsp {{w_node.wideip_rcof}} &nbsp  </span>
-              </li>
-
-                  {% for wp_node in wp_mapp_data %}
+                <span class="wideip">{{w_node.wideip}} </span>
+                <span class="right-align"><b>{{w_node.wideip_lbmod}}</b></span>
+                </td>
+                <td style="text-align:left; width:25%;">
+                {% for wp_node in wp_mapp_data %}
                     {% if w_node.wideip == wp_node.wideip %}
-                      <li class="treeview-animated-items">
 
                       {% for p_node in pool_data %}
                         {% if wp_node.pool == p_node.pool %}
-                          <a class="closed">
+                          <div class="toggle-container">
                             <i class="fas fa-angle-right"></i>
                               {% if p_node.pool_status == 'green' %}
                                 <i class="fas fa-check-circle text-success"></i>
@@ -88,12 +112,12 @@
                               {% else %}
                                 <i class="fas fa-question-circle text-primary"></i>
                               {% endif %}
-                              <span>{{p_node.pool}} &nbsp {{p_node.pool_ttl}} &nbsp {{p_node.pool_en}} &nbsp {{p_node.pool_lbmod}} &nbsp {{p_node.pool_alter}} &nbsp {{p_node.pool_fallback}} &nbsp {{p_node.pool_avail}}</span>
-                          </a>
-
+                              {{p_node.pool}}
+                              <span class="right-align"><b>{{p_node.pool_lbmod}}</b> &nbsp&nbsp&nbsp&nbsp&nbsp {{p_node.pool_ttl}}</span>
+                           </div>
+                           <div class="toggle-content">
                           {% for ppmbr_node in ppmbr_mapp_data %}
                             {% if ppmbr_node.pool == p_node.pool %}
-                              <li>
                                 <div class="treeview-animated-element">
                                   &nbsp &nbsp
                                   <i class="fas fa-circle"></i>
@@ -108,10 +132,35 @@
                                   {% endif %}
 
                                   {{ppmbr_node.poolmbr}}
-                              </li>
+                                  <span class="right-align">{{ppmbr_node.ratio}}&nbsp&nbsp&nbsp&nbsp&nbsp
+                                  &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+                                 </div>
+                                  <!--
+                                  {% for afmainslb_pool_data in afmainslb_pool_data %}
+                                    {% if afmainslb_pool_data.pool_vip ==  ppmbr_node.poolmbr_ip %}
+
+                                      {% for afmainslb_node_data in afmainslb_node_data %}
+                                        {% if afmainslb_pool_data.pool == afmainslb_node_data.pool %}
+                                          <br> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                          <i class="bi bi-arrow-right-short"></i>
+                                          {% if afmainslb_node_data.node_status == 'green' %}
+                                            <i class="fas fa-check-circle text-success"></i>
+                                          {% elif afmainslb_node_data.node_status == 'red' %}
+                                            <i class="fas fa-times-circle text-danger"></i>
+                                          {% else %}
+                                            <i class="fas fa-question-circle text-primary"></i>
+                                          {% endif %}
+                                          {{afmainslb_node_data.node}}_{{afmainslb_node_data.pool_vip}}_{{afmainslb_node_data.node_port}} <font size = 2>afmainslb</font>
+                                        {% endif %}
+                                      {% endfor %}
+
+                                    {% endif %}
+                                  {% endfor %}
+                                  -->
                             {% endif %}
                           {% endfor %}
-
+                          </div>
+                          <br>
 
                         {% endif %}
                       {% endfor %}
@@ -120,15 +169,178 @@
                     {% endif %}
                   {% endfor %}
 
-              <br>
-              {% endfor %}
-            </ul>
+                </td>
 
+
+              </tr>
+
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td colspan="4">데이터가 없습니다.</td>
+            </tr>
+            {% endif %}
+          </tbody>
+      </table>
+
+
+      <div class="row my-3">
+          <div class="col-6">
+              <div class="input-group">
+                  <input type="text" id="search_kw" class="form-control" value="{{ kw or '' }}">
+                  <div class="input-group-append">
+                      <button class="btn btn-outline-secondary" type="button" id="btn_search">찾기</button>
+                  </div>
+              </div>
+          </div>
       </div>
 
-    </div>
+      <!-- 페이징처리 시작 -->
+      <ul class="pagination justify-content-center">
+          <!-- 이전페이지 -->
+          {% if wideip_list.has_prev %}
+          <li class="page-item">
+              <a class="page-link" data-page="{{ wideip_list.prev_num }}" href="?page={{ wideip_list.prev_num }}&per_page={{ per_page }}">이전</a>
+          </li>
+          {% else %}
+          <li class="page-item disabled">
+              <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+          </li>
+          {% endif %}
+          {% for page_num in wideip_list.iter_pages() %}
+          {% if page_num %}
+          {% if page_num != wideip_list.page %}
+          <li class="page-item">
+              <a class="page-link" data-page="{{ page_num }}" href="?page={{ page_num }}&per_page={{ per_page }}">{{ page_num }}</a>
+          </li>
+          {% else %}
+          <li class="page-item active" aria-current="page">
+              <a class="page-link" href="#">{{ page_num }}</a>
+          </li>
+          {% endif %}
+          {% else %}
+          <li class="disabled">
+              <a class="page-link" href="javascript:void(0)">...</a>
+          </li>
+          {% endif %}
+          {% endfor %}
+          <!-- 다음페이지 -->
+          {% if wideip_list.has_next %}
+          <li class="page-item">
+              <a class="page-link" data-page="{{ wideip_list.next_num }}" href="?page={{ wideip_list.next_num}}&per_page={{ per_page }}">다음</a>
+          </li>
+          {% else %}
+          <li class="page-item disabled">
+              <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+          </li>
+          {% endif %}
+      </ul>
+      <!-- 페이징처리 끝 -->
+
+      <form id="searchForm" method="get" action="{{ url_for('visual._visual') }}">
+          <input type="hidden" id="kw" name="kw" value="{{ kw or '' }}">
+          <input type="hidden" id="page" name="page" value="{{ page }}">
+      </form>
+      </div>
 
   </body>
 </html>
 
+{% endblock %}
+{% block script %}
+<script type='text/javascript'>
+
+document.getElementById("search_kw").addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();  // 기본 동작을 막습니다.
+                document.getElementById("kw").value = this.value;
+                document.getElementById("page").value = 1;  // 검색 시 1페이지로 설정합니다.
+                document.getElementById("searchForm").submit();  // 폼을 제출합니다.
+            }
+       });
+
+
+
+
+
+const page_elements = document.getElementsByClassName("page-link");
+Array.from(page_elements).forEach(function(element) {
+    element.addEventListener('click', function() {
+        document.getElementById('page').value = this.dataset.page;
+        document.getElementById('searchForm').submit();
+    });
+});
+
+const btn_search = document.getElementById("btn_search");
+btn_search.addEventListener('click', function() {
+    document.getElementById('kw').value = document.getElementById('search_kw').value;
+    document.getElementById('page').value = 1;  // 검색버튼을 클릭할 경우 1페이지부터 조회한다.
+    document.getElementById('searchForm').submit();
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    const toggles = document.querySelectorAll(".toggle-container");
+    const toggleAllBtn = document.getElementById("toggle-all");
+    let allExpanded = false;
+
+    // Function to update toggle all button appearance
+    function updateToggleAllButton() {
+        if (allExpanded) {
+            toggleAllBtn.textContent = '모두 접기';
+        } else {
+            toggleAllBtn.textContent = '모두 펼치기';
+        }
+    }
+
+    // Toggle individual content on click
+    toggles.forEach(function(toggle) {
+        toggle.addEventListener("click", function() {
+            const content = this.nextElementSibling;
+            const icon = this.querySelector("i");
+            if (content.style.display === "block") {
+                content.style.display = "none";
+                icon.classList.remove("fa-angle-down");
+                icon.classList.add("fa-angle-right");
+            } else {
+                content.style.display = "block";
+                icon.classList.remove("fa-angle-right");
+                icon.classList.add("fa-angle-down");
+            }
+        });
+    });
+
+    // Toggle all contents on button click
+    toggleAllBtn.addEventListener("click", function() {
+        const contents = document.querySelectorAll(".toggle-content");
+
+        contents.forEach(function(content) {
+            if (allExpanded) {
+                content.style.display = "none";
+            } else {
+                content.style.display = "block";
+            }
+        });
+
+        toggles.forEach(function(toggle) {
+            const icon = toggle.querySelector("i");
+            if (allExpanded) {
+                icon.classList.remove("fa-angle-down");
+                icon.classList.add("fa-angle-right");
+            } else {
+                icon.classList.remove("fa-angle-right");
+                icon.classList.add("fa-angle-down");
+            }
+        });
+
+        allExpanded = !allExpanded;
+        updateToggleAllButton();
+    });
+
+    // Initialize the button appearance
+    updateToggleAllButton();
+});
+
+
+
+</script>
 {% endblock %}

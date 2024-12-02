@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AfreecaTV L4 Management</title>
+
+  </head>
+  <body>
+    <div class="wrapper d-flex align-items-stretch">
+      {% include 'sidebar_default.html' %}
+
+      <div class="treeview-animated w-20 border mx-4 my-4" style="padding: 20px 20px 20px 20px">
+        <h4>CLI config 추출 후 결과</h4> <br>
+
+        <div>
+          <br><br>
+          <a href="{{ url_for('sconfig.download_result_file')}}">파일 다운로드</a>
+        </div>
+      </div>
+
+    </div>
+  </body>
+</html>
+
+{% endblock %}
+

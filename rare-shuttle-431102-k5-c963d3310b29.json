@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "rare-shuttle-431102-k5",
+  "private_key_id": "c963d3310b29fa29b2a11de1e1d0db365bc0daec",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDF0ZFjLQEG2dcy\nk7q4nvV6PfQyKyMQ1gqWE7/FuVEznPE5wRuhs2a2hkzZCG8aiMgZt6KFlhEBTN4J\nc7lO4Ulr0YNy06D0YrFCpCsG9PcucXiBHU94kbbhoXoQZMfMGh9UjOw3A7e73D8m\ngXebFQ9vS6mvfZfioeHcHGZOjBhSTnhcUfIE8Oe8bdvbQZmULIJjEloV94ELLZCL\nsZnXIzZoRypMYIEThcB089ezyMZZK/EXGcqEya84Rp6AkDotK6l9u7A+VFLmHQuo\n70usI4lxbjcxTXxqXedyMWUYQwqvV4yMpmPkTEU4IimURobRkRPmhIEAm/zp7Rbv\nTr+2AoqLAgMBAAECggEAJuney7+ioBJiPtTIumCqsW1WiDfsIfe5BWTFKMQXsSuC\nWHYgVWLRJb6th1QdZv7ZPhXdpqGqnrLcSse1AEtZAhio3wG6e9iePhnFTQ0LQtuX\ndO6rH3CqpR/6vxbUJtZMq3k9TmUw04ez9IMrYBp4etBLhPYT1sU5hO8hQPpWHnpw\npI8qSXIMPrnAR4O2Xwrz/ZRBrJ/4JcK98Anll3vHL1dna9QsKKSU29ATvIWau6Cw\ndvqgG5SYyzkJFHH17J6N9CaljAaFNowfpqJ0ZTjPZd/eTbBjBsRuUfivSzU60tIX\n/Zg/9/VpELy8faAt8VpnIkr7TfKQ3ILY2eTFP/NHwQKBgQDovwgp+ezMx4EHrTcI\nNny6FXWfVPBT/4FGKPtSbSYzVKrw4Ngh8MU3PqyzKxybASXvlptxv2A++Rs6kGG8\nm1E380pTWZg2YglApVuDXR2hAEyiPWdjLYarvrWBw8h8JkwRBuQOpAoSpj1/dA75\n05Hzm0OFGk9F+VXrMjmW7Dgc8wKBgQDZlTC0aXNaFmeRCYEJ4nc/hAQpOO7vS3oE\nl3TMCIBqCMGo9Cio6MEP6nvkgItM6vqQ9R0QcmT7pf5tcLeJwCak9QZWkMbjn5zY\nEKQqA02ewgEr1kw67rF7mAVvIJnkFFhku4cgldsUBsbvBf35JOj0rG7cvrTzAaxu\nSRV+elniCQKBgQDDnPLWnMhKIA8xDYLoMytHFowiGrhWULMs7Xq0/ymREMMO6lqc\nxAhs8w8hEsXa/O8OW81Pn6Hbq3AYG4sZgoyTcrXwMaf9ZQ4TuCae1J73VxIRdXw0\nXeoG5KUWaB9TQLjDwr/gEjypCfE78qY3kHrlfIQWFVO1Iub0YuUGFIjgwwKBgQDL\nWm8pvoCLyvLCkBJk7Z6r4zOMX2SYi38fuXn0k2GJOGPfB0rVCqwdtvZRyn3mxpqm\nTh/61h9hPnO7TySKfubfNw3Ua/0mkm+hVHRJu8qYvRMhKGkYjyubqqoxgVOy4fz3\nMHkLUGNvpSHaFUyXxRJgUqROdYJit8azUGThT3KgGQKBgQCioFj5ENYWgldAqH+f\nI6ReFA2DNtolO+kgAusiBEG+wed262BM4eZ6Da1RfvmUA7by7ex+khHgFcjSVZCv\n/CYoilM2IorZqM7LAcNZ3/FQAgos+hHhXI4IbDNmiF5tUyC2e6sKMNWf26AsmEFO\n4/3sYoJIf0G3sNPRSLRmD7/jhA==\n-----END PRIVATE KEY-----\n",
+  "client_email": "study-gcp@rare-shuttle-431102-k5.iam.gserviceaccount.com",
+  "client_id": "115782383792350808861",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/study-gcp%40rare-shuttle-431102-k5.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
